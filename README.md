@@ -1,16 +1,34 @@
-# React + Vite
+# Interactive Shopping Cart
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Week 12 homework for Web Programming (Gachon University) — WongDengFoong, 202699475.
 
-Currently, two official plugins are available:
+**Live demo:** https://wongdf2006.github.io/shopping-cart/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+A small React shop that practises `useState`: six products with Add buttons, and a cart sidebar
+where you can change quantities, remove items or clear the cart. The total is always worked out
+from the cart state, so it can never get out of sync.
 
-## React Compiler
+## Components
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Component | Job |
+|---|---|
+| `ShoppingCart` | Owns the cart state (`[{ id, quantity }]`) and the functions that change it. Passes data down to both children. |
+| `ProductList` | Shows each product's image, name and price with an **Add to cart** button. |
+| `Cart` | Sidebar listing items with **−** / **+** quantity buttons, **Remove**, the total and **Clear cart**. |
 
-## Expanding the Oxlint configuration
+## How the state is updated
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+All updates use the functional form `setCart(prev => ...)` and never mutate the array:
+
+- **Add / +** — `map` to raise the quantity if the item is already there, otherwise append `{ id, quantity: 1 }`.
+- **−** — `map` to lower the quantity, then `filter` out anything that reached 0.
+- **Remove** — `filter` the item out.
+- **Total** — `reduce` over the cart on each render (derived, not stored).
+
+## Run it
+
+```bash
+npm install
+npm run dev      # local development
+npm run deploy   # build and publish to the gh-pages branch
+```
