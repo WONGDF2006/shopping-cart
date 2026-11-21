@@ -16,7 +16,8 @@ function ProductList({ products, quantityInCart, onAdd }) {
               <button type="button" className="add-button" onClick={() => onAdd(product.id)}>
                 Add to cart<span className="visually-hidden">: {product.name}</span>
               </button>
-              {inCart > 0 && <p className="in-cart">{inCart} in cart</p>}
+              {/* Always rendered so every Add button lines up */}
+              <p className="in-cart">{inCart > 0 ? `${inCart} in cart` : ' '}</p>
             </li>
           );
         })}
